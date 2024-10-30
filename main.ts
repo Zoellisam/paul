@@ -1,20 +1,20 @@
 let zeit = 0
 basic.forever(function () {
     basic.showIcon(IconNames.Happy)
-    basic.setLedColor(0x00ffff)
-    if (calliBot2.readBumperSensor(C2Sensor.rechts, C2State.an) || calliBot2.readBumperSensor(C2Sensor.links, C2State.an)) {
-        calliBot2.motorStop(C2Motor.beide, C2Stop.Bremsen)
-        for (let index = 0; index < 2; index++) {
-            calliBot2.motor(C2Motor.beide, C2Dir.rueckwaerts, 50)
-        }
-    }
     if (input.buttonIsPressed(Button.B)) {
         basic.showString("Hi! Ich bin Paul.")
     }
     if (input.buttonIsPressed(Button.A)) {
         basic.pause(500)
         while (!(input.buttonIsPressed(Button.A))) {
-            calliBot2.motorStop(C2Motor.beide, C2Stop.Bremsen)
+            basic.showIcon(IconNames.Happy)
+            basic.setLedColor(0x00ffff)
+            if (calliBot2.readBumperSensor(C2Sensor.rechts, C2State.an) || calliBot2.readBumperSensor(C2Sensor.links, C2State.an)) {
+                calliBot2.motorStop(C2Motor.beide, C2Stop.Bremsen)
+                for (let index = 0; index < 2; index++) {
+                    calliBot2.motor(C2Motor.beide, C2Dir.rueckwaerts, 50)
+                }
+            }
             if (calliBot2.readLineSensor(C2Sensor.rechts, C2SensorStatus.dunkel) && calliBot2.readLineSensor(C2Sensor.links, C2SensorStatus.dunkel)) {
                 calliBot2.setLed(C2Motor.beide, false)
                 calliBot2.motor(C2Motor.rechts, C2Dir.vorwaerts, 100)
@@ -31,19 +31,19 @@ basic.forever(function () {
                     }
                 }
             }
+            if (calliBot2.entfernung(C2Einheit.cm) < 10) {
+                calliBot2.motorStop(C2Motor.beide, C2Stop.Bremsen)
+                zeit += 1
+                basic.setLedColor(0xff0000)
+                if (zeit > 4) {
+                    zeit = 0
+                    basic.showString("mir wird langweilig")
+                    basic.showIcon(IconNames.Sad)
+                }
+                basic.pause(2000)
+                basic.turnRgbLedOff()
+            }
         }
-    }
-    if (calliBot2.entfernung(C2Einheit.cm) < 10) {
-        calliBot2.motorStop(C2Motor.beide, C2Stop.Bremsen)
-        zeit += 1
-        basic.setLedColor(0xff0000)
-        if (zeit > 4) {
-            zeit = 0
-            basic.showString("mir wird langweilig")
-            basic.showIcon(IconNames.Sad)
-        }
-        basic.pause(2000)
-        basic.turnRgbLedOff()
     }
 })
 basic.forever(function () {
