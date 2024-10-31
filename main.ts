@@ -11,13 +11,13 @@ basic.forever(function () {
             basic.setLedColor(0x00ffff)
             if (calliBot2.readBumperSensor(C2Sensor.rechts, C2State.an) || calliBot2.readBumperSensor(C2Sensor.links, C2State.an)) {
                 calliBot2.motorStop(C2Motor.beide, C2Stop.Bremsen)
-                for (let index = 0; index < 8; index++) {
+                for (let index = 0; index < 4; index++) {
                     calliBot2.motor(C2Motor.beide, C2Dir.rueckwaerts, 50)
                 }
             }
             if (calliBot2.readLineSensor(C2Sensor.rechts, C2SensorStatus.dunkel) && calliBot2.readLineSensor(C2Sensor.links, C2SensorStatus.dunkel)) {
                 calliBot2.setLed(C2Motor.beide, false)
-                calliBot2.motor(C2Motor.rechts, C2Dir.vorwaerts, 80)
+                calliBot2.motor(C2Motor.beide, C2Dir.vorwaerts, 80)
             } else {
                 if (calliBot2.readLineSensor(C2Sensor.links, C2SensorStatus.dunkel) && calliBot2.readLineSensor(C2Sensor.rechts, C2SensorStatus.hell)) {
                     calliBot2.setLed(C2Motor.links, true)
